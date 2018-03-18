@@ -14,4 +14,14 @@ NeoSnippetのcpp.snipファイルの先頭に
 include CP-lib/*
 ```
 
-と記述して，NeoSnippetのsnippetディレクトリに``git clone``してください．
+と記述して，NeoSnippetのsnippetsディレクトリに``git clone``してください．
+
+snippetsディレクトリはvimのconfig内に
+
+```
+let g:neosnippet#snippets_directory = '~/.config/nvim/snippets'
+```
+
+と記述していれば``~/.config/nvim/snippets``にあるかと思います．
+
+NeoSnippetの詳細は[公式ドキュメント](https://github.com/Shougo/neosnippet.vim/blob/master/doc/neosnippet.txt)を見てください．
