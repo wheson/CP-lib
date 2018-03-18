@@ -1,0 +1,23 @@
+snippet euclidean
+alias lcm gcd
+abbr ユークリッドの互除法
+        LL euclidean(LL a, LL b){
+            if(a < b) swap(a, b);
+            LL r = a % b;
+            while(r != 0){
+                a = b;
+                b = r;
+                r = a % b;
+            }
+
+            return b;
+        }
+
+        LL gcd(LL a, LL b){
+            return euclidean(a, b);
+        }
+
+        LL lcm(LL a, LL b){
+            LL g = gcd(a, b);
+            return a / g * b;
+        }
