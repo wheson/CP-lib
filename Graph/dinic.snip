@@ -2,7 +2,7 @@ snippet max_flow
 alias dinic
 abbr 最大フロー
         struct max_flow {
-            struct edge { int to, cap, rev; };
+            struct edge { int to, cap, rev; }; // {行き先, 容量, 逆辺}
             int V;
             vector<vector<edge>> G;
             vector<int> itr, level;
@@ -31,8 +31,8 @@ abbr 最大フロー
 
             int dfs(int v, int t, int f) {
                 if (v == t) return f;
-                for (int& i = itr[v]; i < (int) G[v].size(); ++i) {
-                    edge& e = G[v][i];
+                for (int &i = itr[v]; i < (int) G[v].size(); ++i) {
+                    edge &e = G[v][i];
                     if (e.cap > 0 and level[v] < level[e.to]) {
                         int d = dfs(e.to, t, min(f, e.cap));
                         if (d > 0) {
