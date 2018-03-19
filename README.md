@@ -11,7 +11,7 @@ NeoSnippetで動くようになってるので，最初に謎の文字列があ�
 NeoSnippetのcpp.snipファイルの先頭に
 
 ```
-include CP-lib/*
+include CP-lib/*.snip
 ```
 
 と記述して，NeoSnippetのsnippetsディレクトリに``git clone``してください．
