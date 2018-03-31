@@ -13,38 +13,38 @@ abbr 正の値のみの最短経路問題
 
         class Dijkstra {
          private:
-          bool is_dir = false;  // 無向グラフ: false, 有向グラフ: true
+          bool isDir = false;  // 無向グラフ: false, 有向グラフ: true
           long long INFl = (long long)1e15;
-          int array_size_of_cost;
+          int arraySizeOfCost;
           vector<vector<Edge>> adj;  // adj[始点][動的配列で始点から伸びる枝]
 
          public:
           Dijkstra(int n, bool dir);
           vector<long long> cost;
           vector<int> prever;
-          void add_edge(int f, int t, long long c);
-          bool has_path(int t);  // tに至るパスはあるか
-          vector<int> get_shortest_path(int t);
-          void run(int f);
+          void AddEdge(int f, int t, long long c);
+          bool HasPath(int t);  // tに至るパスはあるか
+          vector<int> getShortestPath(int t);
+          void Run(int f);
         };
 
         Dijkstra::Dijkstra(int n, bool dir)
-            : is_dir(dir),
-              array_size_of_cost(n + 1),
-              adj(vector<vector<Edge>>(array_size_of_cost)),
-              cost(vector<long long>(array_size_of_cost)),
-              prever(vector<int>(array_size_of_cost, -1)) {
+            : isDir(dir),
+              arraySizeOfCost(n + 1),
+              adj(vector<vector<Edge>>(arraySizeOfCost)),
+              cost(vector<long long>(arraySizeOfCost)),
+              prever(vector<int>(arraySizeOfCost, -1)) {
           fill(cost.begin(), cost.end(), INFl);
         }
 
-        void Dijkstra::add_edge(int f, int t, long long c) {
+        void Dijkstra::AddEdge(int f, int t, long long c) {
           adj[f].push_back(Edge(t, c));
-          if (!is_dir) adj[t].push_back(Edge(f, c));
+          if (!isDir) adj[t].push_back(Edge(f, c));
         }
 
-        bool Dijkstra::has_path(int t) { return cost[t] != INFl; }
+        bool Dijkstra::HasPath(int t) { return cost[t] != INFl; }
 
-        vector<int> Dijkstra::get_shortest_path(int t) {
+        vector<int> Dijkstra::getShortestPath(int t) {
           vector<int> path;
           for (; t != -1; t = prever[t]) path.push_back(t);
 
@@ -52,7 +52,7 @@ abbr 正の値のみの最短経路問題
           return path;
         }
 
-        void Dijkstra::run(int first_state) {
+        void Dijkstra::Run(int first_state) {
           using State = Edge;
           priority_queue<State, vector<State>, greater<State>> pq;
 
