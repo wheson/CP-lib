@@ -3,13 +3,13 @@ alias bellman
 abbr 負の閉路を探す
         struct Edge {
           int to;
-          Int cost;
-          Edge(int to, Int cost) : to(to), cost(cost) {}
+          long long cost;
+          Edge(int to, long long cost) : to(to), cost(cost) {}
         };
 
         class BellmanFord {
          private:
-          Int INF_L = (Int)1e15;
+          long long INF_L = (long long)1e15;
           int arraySizeOfCost;
           int nodeNum;
           vector<vector<Edge>> adj;  // adj[始点][動的配列で始点から伸びる枝]
@@ -17,8 +17,8 @@ abbr 負の閉路を探す
 
          public:
           explicit BellmanFord(int n);
-          vector<Int> dist;  // 最短経路
-          void AddEdge(int f, int t, Int c);
+          vector<long long> dist;  // 最短経路
+          void AddEdge(int f, int t, long long c);
           void Run(int f);
           bool HasNegativeCycle(int n);
         };
@@ -28,12 +28,12 @@ abbr 負の閉路を探す
               nodeNum(n),
               adj(vector<vector<Edge>>(ArraySizeOfCost)),
               negative(ArraySizeOfCost),
-              dist(vector<Int>(ArraySizeOfCost)) {
+              dist(vector<long long>(ArraySizeOfCost)) {
           fill(dist.begin(), dist.end(), INF_L);
           fill(negative.begin(), negative.end(), false);
         }
 
-        void BellmanFord::AddEdge(int f, int t, Int c) { adj[f].push_back(Edge(t, c)); }
+        void BellmanFord::AddEdge(int f, int t, long long c) { adj[f].push_back(Edge(t, c)); }
 
         void BellmanFord::Run(int firstNode) {
           dist[firstNode] = 0;
