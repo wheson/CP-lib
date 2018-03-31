@@ -1,56 +1,78 @@
 snippet max_flow
 alias dinic
 abbr 最大フロー
-        struct max_flow {
-            struct edge { int to, cap, rev; }; // {行き先, 容量, 逆辺}
-            int V;
-            vector<vector<edge>> G;
-            vector<int> itr, level;
-
-            max_flow(int V) : V(V) { G.assign(V,vector<edge>()); }
-
-            void add_edge(int from, int to, int cap) {
-                G[from].push_back((edge) {to, cap, (int) G[to].size()});
-                G[to].push_back((edge) {from, 0, (int) G[from].size()-1});
-            }
-
-            void bfs(int s) {
-                level.assign(V,-1);
-                queue<int> q;
-                level[s] = 0; q.push(s);
-                while (!q.empty()) {
-                    int v = q.front(); q.pop();
-                    for(auto &e: G[v]){
-                        if (e.cap > 0 and level[e.to] < 0) {
-                            level[e.to] = level[v] + 1;
-                            q.push(e.to);
-                        }
-                    }
-                }
-            }
-
-            int dfs(int v, int t, int f) {
-                if (v == t) return f;
-                for (int &i = itr[v]; i < (int) G[v].size(); ++i) {
-                    edge &e = G[v][i];
-                    if (e.cap > 0 and level[v] < level[e.to]) {
-                        int d = dfs(e.to, t, min(f, e.cap));
-                        if (d > 0) {
-                            e.cap -= d;
-                            G[e.to][e.rev].cap += d;
-                            return d;
-                        }
-                    }
-                }
-                return 0;
-            }
-
-            int run(int s, int t) {
-                int ret = 0, f;
-                while (bfs(s), level[t] >= 0) {
-                    itr.assign(V,0);
-                    while ((f = dfs(s, t, (int)1e9)) > 0) ret += f;
-                }
-                return ret;
-            }
+        struct Edge {
+          int to;
+          long long cap;
+          int rev;
         };
+
+        class Dinic {
+         private:
+          int V;  // 頂点数
+          vector<long long> minCost;
+          vector<int> iter;
+          vector<vector<Edge>> graph;
+          const long long INFl = 1e15;
+          bool Bfs(int s, int t);
+          long long Dfs(int idx, const int t, long long flow);
+
+         public:
+          explicit Dinic(int n);
+          void AddEdge(int from, int to, long long cap);
+          long long Run(int s, int t);
+        };
+
+        Dinic::Dinic(int n) : V(n) { graph.assign(V, vector<Edge>()); }
+
+        void Dinic::AddEdge(int from, int to, long long cap) {
+          graph[from].push_back((Edge){to, cap, static_cast<int>(graph[to].size())});
+          graph[to].push_back((Edge){from, 0, static_cast<int>(graph[from].size() - 1)});
+        }
+
+        bool Dinic::Bfs(int s, int t) {
+          minCost.assign(graph.size(), -1);
+          queue<int> que;
+          minCost[s] = 0;
+          que.push(s);
+          while (!que.empty()) {
+            int p = que.front();
+            que.pop();
+            for (auto &e : graph[p]) {
+              if (e.cap > 0 && minCost[e.to] < 0) {
+                minCost[e.to] = minCost[p] + 1;
+                que.push(e.to);
+              }
+            }
+          }
+          return (minCost[t] != -1);
+        }
+
+        long long Dinic::Dfs(int idx, const int t, long long flow) {
+          if (idx == t) return flow;
+          for (int &i = iter[idx]; i < static_cast<int>(graph[idx].size()); ++i) {
+            Edge &e = graph[idx][i];
+            if (e.cap > 0 && minCost[idx] < minCost[e.to]) {
+              long long d = Dfs(e.to, t, min(flow, e.cap));
+              if (d > 0) {
+                e.cap -= d;
+                graph[e.to][e.rev].cap += d;
+                return d;
+              }
+            }
+          }
+          return 0;
+        }
+
+        long long Dinic::Run(int s, int t) {
+          long long flow = 0;
+          while (Bfs(s, t)) {
+            iter.assign(graph.size(), 0);
+            long long f = 0;
+            while ((f = Dfs(s, t, INFl)) > 0) {
+              flow += f;
+            }
+          }
+          return flow;
+        }
+
