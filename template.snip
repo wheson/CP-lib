@@ -1,32 +1,21 @@
 snippet kyoupro
 alias cp
 abbr 競プロテンプレート
-        #include <iostream>
-        #include <cmath>
-        #include <vector>
-        #include <string>
-        #include <map>
-        #include <algorithm>
-        #include <tuple>
-        #include <set>
-        #include <stack>
-        #include <queue>
-        #include <deque>
-        #include <cstdio>
-        #include <bitset>
-        #include <climits>
-        #define REP(i, n) for(LL i = 0;i < n;i++)
-        #define REPR(i, n) for(LL i = n;i >= 0;i--)
-        #define FOR(i, m, n) for(LL i = m;i < n;i++)
-        #define FORR(i, m, n) for(LL i = m;i >= n;i--)
+        #include <bits/stdc++.h>
+
+        using namespace std;
+        using LL = long long;
+        using P = pair<int, int>;
+        using Tapris = tuple<int, int, int>;
+
+        #define rep(i, n) for(Int i = 0;i < n;i++)
         #define pb(a) push_back(a)
         #define all(x) (x).begin(),(x).end()
-        #define INF (int)1e9
-        #define INFL (LL)1e15
-        #define MOD 1000000007
-        using namespace std;
-        typedef long long LL;
-        typedef pair<int, int> P;
+        
+        const int INF = (int)1e9
+        const LL INFL = (LL)1e15
+        const int MOD = 1e9 + 7;
+        
         int dy[]={0, 0, 1, -1, 0};
         int dx[]={1, -1, 0, 0, 0};
         
