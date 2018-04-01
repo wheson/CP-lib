@@ -50,17 +50,22 @@ abbr 最小全域木
         };
 
         template <typename T>
+        using Edges = vector<Edge<T>>;
+        template <typename T>
+        using WeightedGraph = vector<Edges<T>>;
+
+        template <typename T>
         class Kruskal {
          private:
           int V;  // 頂点数
-          vector<Edge<T>> edges;
-          vector<vector<Edge<T>>> minimumSpanningTree;
+          Edges<T> edges;
+          WeightedGraph<T> minimumSpanningTree;
 
          public:
           explicit Kruskal(int n);
           void AddEdge(int from, int to, T cost);
           T Run();
-          vector<vector<Edge<T>>> GetMinimumSpanningTree();
+          WeightedGraph<T> GetMinimumSpanningTree();
         };
 
         template <typename T>
@@ -91,6 +96,6 @@ abbr 最小全域木
         }
 
         template <typename T>
-        vector<vector<Edge<T>>> Kruskal<T>::GetMinimumSpanningTree() {
+        WeightedGraph<T> Kruskal<T>::GetMinimumSpanningTree() {
           return minimumSpanningTree;
         }
