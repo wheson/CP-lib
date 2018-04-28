@@ -1,22 +1,25 @@
 snippet dijkstra
 abbr 正の値のみの最短経路問題
+    template <typename T>
     struct Edge {
-      int cost, to;
-      Edge(int t, int c) {
-        cost = c;
-        to = t;
-      }
-      bool operator<(const Edge &e) const { return cost < e.cost; }
-      bool operator>(const Edge &e) const { return cost > e.cost; }
+      int from, to;
+      T cost;
+      Edge(int to, T cost) : from(-1), to(to), cost(cost) {}
+      Edge(int from, int to, T cost) : from(from), to(to), cost(cost) {}
     };
+
+    template <typename T>
+    using Edges = vector<Edge<T>>;
+    template <typename T>
+    using AdjList = vector<Edges<T>>;
 
     template <typename T>
     class Dijkstra {
      private:
       bool isDir = false;  // 無向グラフ: false, 有向グラフ: true
-      T INF = numeric_limits<T>::max();
-      int V;                     // 頂点数
-      vector<vector<Edge>> adj;  // adj[始点][動的配列で始点から伸びる枝]
+      T INF = numeric_limits<T>::max() / 10;
+      int V;           // 頂点数
+      AdjList<T> adj;  // adj[始点][動的配列で始点から伸びる枝]
       vector<int> prever;
 
      public:
@@ -24,24 +27,20 @@ abbr 正の値のみの最短経路問題
       vector<T> cost;
       void AddEdge(int f, int t, int c);
       bool HasPath(int t);                 // tに至るパスはあるか
-      vector<int> getShortestPath(int t);  // tへの最短路
+      vector<int> GetShortestPath(int t);  // tへの最短路
       void Run(int f);
     };
 
     template <typename T>
     Dijkstra<T>::Dijkstra(int n, bool dir)
-        : isDir(dir),
-          V(n + 1),
-          adj(vector<vector<Edge>>(V)),
-          prever(vector<int>(V, -1)),
-          cost(vector<T>(V)) {
+        : isDir(dir), V(n + 1), adj(V), prever(vector<int>(V, -1)), cost(V) {
       fill(cost.begin(), cost.end(), INF);
     }
 
     template <typename T>
     void Dijkstra<T>::AddEdge(int f, int t, int c) {
-      adj[f].push_back(Edge(t, c));
-      if (!isDir) adj[t].push_back(Edge(f, c));
+      adj[f].push_back(Edge<T>(t, c));
+      if (!isDir) adj[t].push_back(Edge<T>(f, c));
     }
 
     template <typename T>
@@ -50,7 +49,7 @@ abbr 正の値のみの最短経路問題
     }
 
     template <typename T>
-    vector<int> Dijkstra<T>::getShortestPath(int t) {
+    vector<int> Dijkstra<T>::GetShortestPath(int t) {
       vector<int> path;
       for (; t != -1; t = prever[t]) path.push_back(t);
 
@@ -60,23 +59,23 @@ abbr 正の値のみの最短経路問題
 
     template <typename T>
     void Dijkstra<T>::Run(int firstNode) {
-      priority_queue<Edge, vector<Edge>, greater<Edge>> pq;
+      using Pi = pair<T, int>;
+      priority_queue<Pi, vector<Pi>, greater<Pi>> pq;
 
       cost[firstNode] = 0;
-      pq.push(Edge(firstNode, 0LL));
+      pq.push(Pi(cost[firstNode], firstNode));
 
       while (!pq.empty()) {
-        Edge currentEdge = pq.top();
+        Pi currentEdge = pq.top();
         pq.pop();
+        if (cost[currentEdge.second] < currentEdge.first) continue;
 
-        if (cost[currentEdge.to] < currentEdge.cost) continue;
-
-        for (Edge tmp : adj[currentEdge.to]) {
-          T sumCost = currentEdge.cost + tmp.cost;
+        for (Edge<T> tmp : adj[currentEdge.second]) {
+          T sumCost = currentEdge.first + tmp.cost;
           if (cost[tmp.to] > sumCost) {
             cost[tmp.to] = sumCost;
-            prever[tmp.to] = currentEdge.to;
-            pq.push(Edge(tmp.to, cost[tmp.to]));
+            prever[tmp.to] = currentEdge.second;
+            pq.push(Pi(cost[tmp.to], tmp.to));
           }
         }
       }
