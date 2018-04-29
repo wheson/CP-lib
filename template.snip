@@ -9,8 +9,9 @@ abbr 競プロテンプレート
     using P = pair<int, int>;
     using Tapris = tuple<int, int, int>;
 
-    #define REP(i, n) for(LL i = 0; i < n; ++i)
-    #define FOR(i, a, n) for(LL i = a; i < n; ++i)
+    #define FOR(i, a, n) for(int i = (int)(a); i < (int)(n); ++i)
+    #define REP(i, n) FOR(i, 0, n)
+    
     #define pb(a) push_back(a)
     #define all(x) (x).begin(),(x).end()
     
