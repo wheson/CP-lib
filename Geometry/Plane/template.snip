@@ -63,7 +63,6 @@ abbr 平面幾何テンプレート
  bool IsecSP(Point a1, Point a2, Point b) {
      return !CCW(a1, a2, b);
  }
- 
  // ********************************************
  
  
@@ -105,7 +104,6 @@ abbr 平面幾何テンプレート
      if(IsecSS(a1, a2, b1, b2)) return 0;
      return min(min(DistSP(a1, a2, b1), DistSP(a1, a2, b2)), min(DistSP(b1, b2, a1), DistSP(b1, b2, a2)));
  }
- 
  // ********************************************
  
  
