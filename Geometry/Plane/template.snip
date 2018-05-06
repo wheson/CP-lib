@@ -116,3 +116,33 @@ abbr 平面幾何テンプレート
      return a1 + d1/d2 * (a2-a1);
  }
  // ********************************************
+
+
+ // 最近点対 (ClosestPair) *********************
+ pair<Point, Point> ClosestPair(Polygon p){
+     int n = p.size();
+     sort(p.begin(), p.end(), [](Point p, Point q) { return p.Y < q.Y; });
+     
+     auto u = p[0], v = p[1];
+     auto best = Dot(u-v, u-v);
+     auto update = [&](Point p, Point q) {
+         auto dist = Dot(p-q, p-q);
+         if (best > dist) { best = dist; u = p; v = q; }
+     };
+     set<Point> S; S.insert(u); S.insert(v);
+     for (int l = 0, r = 2; r < n; ++r) {
+         if (S.count(p[r])) return {p[r], p[r]};
+         if ((p[l].Y-p[r].Y)*(p[l].Y-p[r].Y) > best) S.erase(p[l++]);
+         auto i = S.insert(p[r]).first;
+         for (auto j = i; ; ++j) {
+             if (j == S.end() || (i->X-j->X)*(i->X-j->X) > best) break;
+             if (i != j) update(*i, *j);
+         }
+         for (auto j = i; ; --j) {
+             if (i != j) update(*i, *j);
+             if (j == S.begin() || (i->X-j->X)*(i->X-j->X) > best) break;
+         }
+     }
+     return make_pair(u, v);
+ }
+ // ********************************************
