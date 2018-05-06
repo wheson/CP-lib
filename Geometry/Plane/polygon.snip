@@ -13,8 +13,21 @@ abbr 多角形(※要Geometry)
  // 多角形の面積 (PolygonErea) *****************
  LD PolygonErea(Polygon p){
      LD area = 0;
-     for(int i = 0; i < (int)p.size(); i++){
-         area += Cross(p[i], p[(i+1) % p.size()]);
+     int n = p.size();
+     for(int i = 0; i < n; i++){
+         area += Cross(p[i], p[(i+1) % n]);
      }
      return area / 2;
  }
+ // ********************************************
+
+
+ // 凸性判定 (IsConvex) ************************
+ bool IsConvex(Polygon p){
+     int n = p.size();
+     for(int i = 0; i < n; i++){
+         if(CCW(p[i], p[(i+1) % n], p[(i+2) % n]) == -1) return false;
+     }
+     return true;
+ }
+ // ********************************************
