@@ -1,3 +1,38 @@
 snippet ConvexPolygon
 abbr 凸多角形(※要Geometry)
+ //*********************************************
+ //          凸多角形(ConvexPolygon)           *
+ //*********************************************
 
+ // 凸包[θ<=180](ConvexHull) ******************
+ Polygon ConvexHull(Polygon pol){
+     int n = pol.size(), k = 0;
+     sort(pol.begin(), pol.end());
+     Polygon ch(2*n);
+     for(int i = 0; i < n; ch[k++] = pol[i++])
+         while(k >= 2 && CCW(ch[k-2], ch[k-1], pol[i]) == -1) --k;
+
+     for(int i = n-2, t = k+1; i >= 0; ch[k++] = pol[i--])
+         while(k >= t && CCW(ch[k-2], ch[k-1], pol[i]) == -1) --k;
+
+     ch.resize(k-1);
+     return ch;
+ }
+ // ********************************************
+
+
+ // 凸包[θ<180](ConvexHull2) ******************
+ Polygon ConvexHull2(Polygon pol){
+     int n = pol.size(), k = 0;
+     sort(pol.begin(), pol.end());
+     Polygon ch(2*n);
+     for(int i = 0; i < n; ch[k++] = pol[i++])
+         while(k >= 2 && CCW(ch[k-2], ch[k-1], pol[i]) <= 0) --k;
+
+     for(int i = n-2, t = k+1; i >= 0; ch[k++] = pol[i--])
+         while(k >= t && CCW(ch[k-2], ch[k-1], pol[i]) <= 0) --k;
+
+     ch.resize(k-1);
+     return ch;
+ }
+ // ********************************************
