@@ -75,15 +75,16 @@ abbr 平面幾何テンプレート
  
  // 距離 (Dist) ********************************
  // 点pの直線aへの射影点を返す
- Point Proj(Point a1, Point a2, Point p){
+ Point Proj(Line a, Point p){
+     Point a1 = a.first, a2 = a.second;
      return a1 + Dot(a2-a1, p-a1) / norm(a2-a1) * (a2-a1);
  }
  
  // 点pの直線aへの反射点を返す
- Point Reflection(Point a1, Point a2, Point p){
-     return 2.0L*Proj(a1, a2, p) - p;
+ Point Reflection(Line a, Point p){
+     return 2.0L*Proj(a, p) - p;
  }
- 
+
  // 点と点
  LD DistPP(Point p1, Point p2){
      return abs(p1-p2);
