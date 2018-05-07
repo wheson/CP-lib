@@ -67,11 +67,12 @@ abbr 凸多角形(※要Geometry)
  // 凸多角形の切断 (ConvexPolygonCut) **********
  Polygon ConvexPolygonCut(Polygon cpol, Line l){
      int n = cpol.size();
+     Point l1 = l.first, l2 = l.second;
      Polygon q;
      for(int i = 0; i < n; i++){
          Point a = cpol[i], b = cpol[(i+1)%n];
-         if(CCW(l.first, l.second, a) != -1) q.push_back(a);
-         if(CCW(l.first, l.second, a) * CCW(l.first, l.second, b) < 0) q.push_back(CrossPointLL(a, b, l.first, l.second));
+         if(CCW(l1, l2, a) != -1) q.push_back(a);
+         if(CCW(l1, l2, a) * CCW(l1, l2, b) < 0) q.push_back(CrossPointLL(Line(a, b), l));
      }
      return q;
  }
