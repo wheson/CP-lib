@@ -32,3 +32,21 @@ abbr 円テンプレート
      else return make_pair(ft + dir, ft + dir);
  }
  // ********************************************
+
+
+ // 円と円の交点 *******************************
+ pair<Point, Point> CrossPointCC(Circle a, Circle b){
+     Point ap = a.first, bp = b.first;
+     LD ar = a.second, br = b.second;
+     Point ab = bp-ap;
+     LD d = abs(ab);
+     LD crL = (norm(ab) + ar*ar - br*br) / (2*d);
+     if(EQ(d, 0) || ar < abs(crL)) throw "not exist crosspoint";
+ 
+     Point abN = ab * Point(0, sqrt(ar*ar - crL*crL) / d);
+     Point cp = ap + crL/d * ab;
+ 
+     if (!EQ(norm(abN), 0)) return make_pair(cp-abN, cp+abN);
+     else return make_pair(cp+abN, cp+abN);
+ }
+ // ********************************************
