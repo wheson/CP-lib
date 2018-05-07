@@ -3,6 +3,7 @@ abbr 平面幾何テンプレート
  typedef long double LD;
  typedef complex<LD> Point;
  typedef pair<Point, Point> Line;
+ typedef Line Segment;
  typedef vector<Point> Polygon;
  const LD EPS = 1e-10;
  #define X real() // x座標を取得
@@ -39,28 +40,32 @@ abbr 平面幾何テンプレート
  // 直線 := 点と点を通るどこまでも続く線
  // 線分 := 点と点を結んでその両端で止まっている線
  
- // 直線と点
- bool IsecLP(Point a1, Point a2, Point b){
+ bool IsecLP(Line a, Point b){
+     Point a1 = a.first, a2 = a.second;
      return abs(CCW(a1, a2, b)) != 1;
  }
  
  // 直線と直線
- bool IsecLL(Point a1, Point a2, Point b1, Point b2) {
-     return !IsecLP(a2-a1, b2-b1, 0) || IsecLP(a1, b1, b2);
+ bool IsecLL(Line a, Line b) {
+     Point a1 = a.first, a2 = a.second, b1 = b.first, b2 = b.second;
+     return !IsecLP(Line(a2-a1, b2-b1), 0) || IsecLP(Line(a1, b1), b2);
  }
  
  // 直線と線分
- bool IsecLS(Point a1, Point a2, Point b1, Point b2) {
+ bool IsecLS(Line a, Segment b) {
+     Point a1 = a.first, a2 = a.second, b1 = b.first, b2 = b.second;
      return Cross(a2-a1, b1-a1) * Cross(a2-a1, b2-a1) < EPS;
  }
  
  // 線分と線分
- bool IsecSS(Point a1, Point a2, Point b1, Point b2) {
+ bool IsecSS(Segment a, Segment b) {
+     Point a1 = a.first, a2 = a.second, b1 = b.first, b2 = b.second;
      return CCW(a1, a2, b1)*CCW(a1, a2, b2) <= 0 && CCW(b1, b2, a1)*CCW(b1, b2, a2) <= 0;
  }
  
  // 線分と点
- bool IsecSP(Point a1, Point a2, Point b) {
+ bool IsecSP(Segment a, Point b) {
+     Point a1 = a.first, a2 = a.second;
      return !CCW(a1, a2, b);
  }
  // ********************************************
