@@ -31,6 +31,7 @@ abbr 平面幾何テンプレート
      return 0;
  }
  
+
  //*********************************************
  //          点と線(Point and Line)            *
  //*********************************************
@@ -41,9 +42,9 @@ abbr 平面幾何テンプレート
  // 線分 := 点と点を結んでその両端で止まっている線
  
  // 直線と点
- bool IsecLP(Line a, Point b){
+ bool IsecLP(Line a, Point p){
      Point a1 = a.first, a2 = a.second;
-     return abs(CCW(a1, a2, b)) != 1;
+     return abs(CCW(a1, a2, p)) != 1;
  }
  
  // 直線と直線
@@ -65,9 +66,9 @@ abbr 平面幾何テンプレート
  }
  
  // 線分と点
- bool IsecSP(Segment a, Point b) {
+ bool IsecSP(Segment a, Point p) {
      Point a1 = a.first, a2 = a.second;
-     return !CCW(a1, a2, b);
+     return !CCW(a1, a2, p);
  }
  // ********************************************
  
@@ -84,8 +85,8 @@ abbr 平面幾何テンプレート
  }
  
  // 点と点
- LD DistPP(Point a, Point b){
-     return abs(a-b);
+ LD DistPP(Point p1, Point p2){
+     return abs(p1-p2);
  }
  
  // 直線と点
@@ -119,12 +120,13 @@ abbr 平面幾何テンプレート
      Point a1 = a.first, a2 = a.second, b1 = b.first, b2 = b.second;
      if(IsecSS(a, b)) return 0;
      return min(min(DistSP(a, b1), DistSP(a, b2)), min(DistSP(b, a1), DistSP(b, a2)));
- } 
+ }
  // ********************************************
  
  
- // 2直線の交点 (crosspoint) *******************
- Point CrossPointLL(Point a1, Point a2, Point b1, Point b2){
+ // 2直線の交点 (CrossPoint) *******************
+ Point CrossPointLL(Line a, Line b){
+     Point a1 = a.first, a2 = a.second, b1 = b.first, b2 = b.second;
      LD d1 = Cross(b2-b1, b1-a1);
      LD d2 = Cross(b2-b1, a2-a1);
      if (EQ(d1, 0) && EQ(d2, 0)) return a1;
@@ -132,7 +134,7 @@ abbr 平面幾何テンプレート
      return a1 + d1/d2 * (a2-a1);
  }
  // ********************************************
-
+ 
 
  // 最近点対 (ClosestPair) *********************
  pair<Point, Point> ClosestPair(Polygon p){
