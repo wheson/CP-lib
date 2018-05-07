@@ -50,3 +50,16 @@ abbr 円テンプレート
      else return make_pair(cp+abN, cp+abN);
  }
  // ********************************************
+
+
+ // 円の接線の接点 *****************************
+ pair<Point, Point> TangentPoints(Circle a, Point p){
+     Point ap = a.first;
+     LD ar = a.second;
+     LD sin = ar / abs(p-ap);
+     if (!LE(sin, 1)) throw "not exist tangentpoint";
+     LD t = M_PI_2 - asin(min(sin, 1.0L));
+     if (!EQ(sin, 1)) return make_pair(ap + (p-ap)*polar(sin, -t), ap + (p-ap)*polar(sin, t));
+     else return make_pair(ap + (p-ap)*polar(sin, t), ap + (p-ap)*polar(sin, t));
+ }
+ // ********************************************
