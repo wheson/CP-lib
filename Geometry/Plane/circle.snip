@@ -1,0 +1,19 @@
+snippet Circle
+abbr 円テンプレート
+ //*********************************************
+ //                円(Circle)                  *
+ //*********************************************
+ typedef pair<Point, LD> Circle;
+ 
+ // 円と円の交差判定 ***************************
+ int IsecCC(Circle c1, Circle c2){
+     // 0: 包含, 1: 内接, 2: 2点で交わる, 3: 外接, 4: 離れている
+     enum{INCLUSION, INSCRIBED, INTERSECT, CIRCUMSCRIBED, LEAVE};
+     LD d = DistPP(c1.first, c2.first);
+     if(d > c1.second + c2.second) return LEAVE;
+     else if(EQ(d, c1.second + c2.second)) return CIRCUMSCRIBED;
+     else if(abs(c1.second - c2.second) < d && d < c1.second + c2.second) return INTERSECT;
+     else if(EQ(d, abs(c1.second - c2.second))) return INSCRIBED;
+     else return INCLUSION;
+ }
+ // ********************************************
