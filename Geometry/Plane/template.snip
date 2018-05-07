@@ -40,6 +40,7 @@ abbr 平面幾何テンプレート
  // 直線 := 点と点を通るどこまでも続く線
  // 線分 := 点と点を結んでその両端で止まっている線
  
+ // 直線と点
  bool IsecLP(Line a, Point b){
      Point a1 = a.first, a2 = a.second;
      return abs(CCW(a1, a2, b)) != 1;
@@ -82,33 +83,43 @@ abbr 平面幾何テンプレート
      return 2.0L*Proj(a1, a2, p) - p;
  }
  
+ // 点と点
+ LD DistPP(Point a, Point b){
+     return abs(a-b);
+ }
+ 
  // 直線と点
- LD DistLP(Point a1, Point a2, Point p){
+ LD DistLP(Line a, Point p){
+     Point a1 = a.first, a2 = a.second;
      return abs(Proj(a1, a2, p) - p);
  }
  
  // 直線と直線
- LD DistLL(Point a1, Point a2, Point b1, Point b2) {
-     return IsecLL(a1, a2, b1, b2) ? 0 : DistLP(a1, a2, b1);
+ LD DistLL(Line a, Line b) {
+     Point b1 = b.first;
+     return IsecLL(a, b) ? 0 : DistLP(a, b1);
  }
  
  // 直線と線分
- LD DistLS(Point a1, Point a2, Point b1, Point b2) {
-     return IsecLS(a1, a2, b1, b2) ? 0 : min(DistLP(a1, a2, b1), DistLP(a1, a2, b2));
+ LD DistLS(Line a, Segment b) {
+     Point b1 = b.first, b2 = b.second;
+     return IsecLS(a, b) ? 0 : min(DistLP(a, b1), DistLP(a, b2));
  }
  
  // 線分と点
- LD DistSP(Point a1, Point a2, Point p) {
+ LD DistSP(Segment a, Point p) {
+     Point a1 = a.first, a2 = a.second;
      if(Dot(a2-a1,p-a1) < EPS) return abs(p-a1);
      if(Dot(a1-a2,p-a2) < EPS) return abs(p-a2);
      return abs(Cross(a2-a1,p-a1)) / abs(a2-a1);
  }
  
  // 線分と線分
- LD DistSS(Point a1, Point a2, Point b1, Point b2) {
-     if(IsecSS(a1, a2, b1, b2)) return 0;
-     return min(min(DistSP(a1, a2, b1), DistSP(a1, a2, b2)), min(DistSP(b1, b2, a1), DistSP(b1, b2, a2)));
- }
+ LD DistSS(Segment a, Segment b) {
+     Point a1 = a.first, a2 = a.second, b1 = b.first, b2 = b.second;
+     if(IsecSS(a, b)) return 0;
+     return min(min(DistSP(a, b1), DistSP(a, b2)), min(DistSP(b, a1), DistSP(b, a2)));
+ } 
  // ********************************************
  
  
