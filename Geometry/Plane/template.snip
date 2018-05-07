@@ -92,10 +92,9 @@ abbr 平面幾何テンプレート
  
  // 直線と点
  LD DistLP(Line a, Point p){
-     Point a1 = a.first, a2 = a.second;
-     return abs(Proj(a1, a2, p) - p);
+     return abs(Proj(a, p) - p);
  }
- 
+
  // 直線と直線
  LD DistLL(Line a, Line b) {
      Point b1 = b.first;
