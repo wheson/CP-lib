@@ -1,35 +1,14 @@
 snippet sosuu
 abbr エラトステネスで素数を作成
- bool isprime(LL x){
-     if(x == 2) return true;
-     if(x < 2 || x % 2 == 0) return false;
-     LL i = 3;
-     LL sqrtx = sqrt(x);
-     while(i <= sqrtx){
-         if(x % i == 0) return false;
-         i += 2;
+ template <typename T>
+ vector<T> eratos(T n){
+     vector<T> primeVec;
+     vector<bool> isPrime;
+     isPrime.assign(n+1, true);
+     isPrime[0] = false; isPrime[1] = false;
+     for(int p = 2; p*p <= n; p++){
+         for(int i = p*2; i <= n; i += p) isPrime[i] = false;
      }
-     return true;
- }
- // maxまでの素数をvectorに入れて返す
- vector<LL> eratos(LL max){
-     vector<LL> primeVec;
-     vector<bool> isprime;
-     double sqrtmax = sqrt(max);
-     isprime.resize(max + 1);
-     isprime[0] = false; isprime[1] = false;
-     FOR(i, 2, max + 1){
-         isprime[i] = true;
-     }
-     FOR(i, 2, sqrtmax){
-         if(isprime[i]){
-             for(int j = 0; i * (j + 2) < max + 1; ++j){
-                 isprime[i * (j + 2)] = false;
-             }
-         }
-     }
-     REP(i, max + 1){
-         if(isprime[i])  primeVec.pb(i);
-     }
+     for(int p = 2; p <= n; p++) if(isPrime[p]) primeVec.pb(p);
      return primeVec;
  }
