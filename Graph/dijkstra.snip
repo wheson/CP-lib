@@ -58,6 +58,10 @@ abbr 正の値のみの最短経路問題
 
  template <typename T>
  void Dijkstra<T>::Run(int firstNode) {
+     // 初期化
+     cost.assign(V, INF);
+     prever.assign(V, -1);
+
      using Pi = pair<T, int>;
      priority_queue<Pi, vector<Pi>, greater<Pi>> pq;
 
