@@ -1,0 +1,22 @@
+snippet euclidean
+alias lcm gcd
+abbr ユークリッドの互除法
+ // gcd: 最大公約数, lcm: 最小公倍数
+ template<typename T>
+ T euclidean(T a, T b){
+     if(a < b) swap(a, b);
+     T r = a % b;
+     while(r != 0){
+         a = b; b = r; r = a % b;
+     }
+     return b;
+ }
+ template<typename T>
+ T gcd(T a, T b){
+     return euclidean(a, b);
+ }
+ template<typename T>
+ T lcm(T a, T b){
+     T g = gcd(a, b);
+     return a / g * b;
+ }
