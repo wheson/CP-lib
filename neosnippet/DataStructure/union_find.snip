@@ -21,8 +21,7 @@ alias uf
  };
 
  template <typename T>
- UnionFind<T>::UnionFind(int n) : parent(n), rank(n), diffWeight(n, 0)
- {
+ UnionFind<T>::UnionFind(int n) : parent(n), rank(n), diffWeight(n, 0) {
      for (int i = 0; i < n; i++) {
          parent[i] = i;
          rank[i] = 0;
