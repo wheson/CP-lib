@@ -18,9 +18,8 @@ class UnionFind {
         T Diff(int x, int y); // xとyの差を返す
 };
 
-    template <typename T>
-UnionFind<T>::UnionFind(int n) : parent(n), rank(n), diffWeight(n, 0)
-{
+template <typename T>
+UnionFind<T>::UnionFind(int n) : parent(n), rank(n), diffWeight(n, 0){
     for (int i = 0; i < n; i++) {
         parent[i] = i;
         rank[i] = 0;
