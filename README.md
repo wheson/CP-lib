@@ -33,9 +33,9 @@ whesonが使ってる競プロライブラリをまとめてるものです．
 - [x] [凸多角形](/lib/Geometry/Plane/convex_polygon.h)
 
 ## 文字列
-- [ ] [ローリングハッシュ法]()
-- [ ] [文字列検索(Suffix Array)]()
-- [ ] [複数文字列検索(Aho-Corasick法)]()
+- [ ] ローリングハッシュ法
+- [ ] 文字列検索(Suffix Array)
+- [ ] 複数文字列検索(Aho-Corasick法)
 
 # NeoSnippetで利用する方法
 NeoSnippetのcpp.snipファイルの先頭に
