@@ -35,6 +35,6 @@ whesonが使ってる競プロライブラリをまとめてるものです．
 - ~~[x] [凸多角形](/lib/Geometry/Plane/convex_polygon.h)~~
 
 ## 文字列
-- [ ] ローリングハッシュ法
+- [x] [ローリングハッシュ法](/lib/String/rolling_hash.cpp)
 - [ ] 文字列検索(Suffix Array)
 - [ ] 複数文字列検索(Aho-Corasick法)
